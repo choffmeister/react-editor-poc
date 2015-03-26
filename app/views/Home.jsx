@@ -6,7 +6,7 @@ var Builds = React.createClass({
   statics: {
     fetchData: function (params) {
       return {
-        test: RestClient.get('/test')
+        test: RestClient.get('/shops/demoshop/pages/startpage')
       };
     }
   },
@@ -14,9 +14,7 @@ var Builds = React.createClass({
   render: function () {
     return (
       <div>
-        <div>Home</div>
-        <div><DateTime value={new Date()} kind="relative"/></div>
-        <pre>{JSON.stringify(this.props.data['home'].test)}</pre>
+        <pre>{JSON.stringify(this.props.data['home'].test, true, 2)}</pre>
       </div>
     );
   }
