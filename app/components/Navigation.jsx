@@ -17,7 +17,8 @@ var Navigation = React.createClass({
     return (
       <Navbar brand={this.props.brand}>
         <Nav>
-          <NavItemLink to="home">Home</NavItemLink>
+          <NavItemLink to="page" params={{ pageId: 'homepage' }}>Home</NavItemLink>
+          <NavItemLink to="page" params={{ pageId: 'aboutpage' }}>About</NavItemLink>
         </Nav>
       </Navbar>
     );
