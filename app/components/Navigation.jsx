@@ -8,7 +8,16 @@ var React = require('react');
     ReactRouterBootstrap = require('react-router-bootstrap'),
     NavItemLink = ReactRouterBootstrap.NavItemLink;
 
+var GlobalState = require('../services/GlobalState');
+
+var mode = 'view';
+
 var Navigation = React.createClass({
+  toggleEditor: function (event) {
+    GlobalState.toggleMode();
+    event.preventDefault();
+  },
+
   render: function () {
     var pages = this.props.pages.map((page) =>
       <NavItemLink key={this.props.shopId + '/' + page.id} to="page" params={{ shopId: this.props.shopId, pageId: page.id }}>
@@ -20,6 +29,11 @@ var Navigation = React.createClass({
       <Navbar brand={this.props.brand}>
         <Nav>
           {pages}
+        </Nav>
+        <Nav right>
+          <NavItem onClick={this.toggleEditor}>
+            View/Edit
+          </NavItem>
         </Nav>
       </Navbar>
     );

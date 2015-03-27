@@ -1,9 +1,12 @@
 var React = require('react'),
     ReactRouter = require('react-router'),
     Navigation = require('../components/Navigation.jsx'),
-    RestClient = require('../services/RestClient');
+    RestClient = require('../services/RestClient'),
+    RegisterEventMixin = require('../mixins/RegisterEventMixin');
 
 var App = React.createClass({
+  mixins: [RegisterEventMixin],
+
   statics: {
     fetchData: function (params) {
       return {
@@ -12,12 +15,24 @@ var App = React.createClass({
     }
   },
 
+  getInitialState: function () {
+    return {
+      mode: GlobalState.getMode()
+    };
+  },
+
+  componentDidMount: function () {
+    this.onEvent('mode', function (mode) {
+      this.setState({ mode: mode });
+    }.bind(this));
+  },
+
   render: function () {
     return (
       <div>
         <Navigation brand={this.props.params.shopId} shopId={this.props.params.shopId} pages={this.props.data['app'].pages}/>
         <div className="container">
-          <ReactRouter.RouteHandler data={this.props.data}/>
+          <ReactRouter.RouteHandler mode={this.state.mode} data={this.props.data}/>
         </div>
         <hr/>
         <div className="container">
