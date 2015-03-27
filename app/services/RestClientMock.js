@@ -49,10 +49,38 @@ var Router = function () {
 
 module.exports = function (method, url, payload) {
   var router = new Router();
+  router.addRoute('GET', '/shops', function () {
+    return [
+      {
+        id: 'demoshop',
+        displayName: 'Demo Shop I'
+      },
+      {
+        id: 'demoshop2',
+        displayName: 'Demo Shop II'
+      }
+    ]
+  });
   router.addRoute('GET', '/shops/{shopId}/pages', function (values) {
     switch (values.shopId) {
       case 'demoshop':
-        return ['homepage', 'aboutpage'];
+        return [
+          {
+            id: 'homepage',
+            displayName: 'Home'
+          },
+          {
+            id: 'aboutpage',
+            displayName: 'About'
+          }
+        ];
+      case 'demoshop2':
+        return [
+          {
+            id: 'homepage',
+            displayName: 'Home'
+          }
+        ];
       default:
         throw new Error();
     }
@@ -87,7 +115,7 @@ module.exports = function (method, url, payload) {
                           id: 'image1',
                           type: 'image',
                           data: {
-                            src: 'http://placehold.it/350x150',
+                            src: 'http://placehold.it/150x150',
                             alt: 'A beautiful image'
                           }
                         }
@@ -99,7 +127,7 @@ module.exports = function (method, url, payload) {
                           id: 'image2',
                           type: 'image',
                           data: {
-                            src: 'http://placehold.it/350x160',
+                            src: 'http://placehold.it/150x160',
                             alt: 'A beautiful image'
                           }
                         }
@@ -111,7 +139,7 @@ module.exports = function (method, url, payload) {
                           id: 'image3',
                           type: 'image',
                           data: {
-                            src: 'http://placehold.it/350x170',
+                            src: 'http://placehold.it/150x170',
                             alt: 'A beautiful image'
                           }
                         }
@@ -123,7 +151,7 @@ module.exports = function (method, url, payload) {
                           id: 'image4',
                           type: 'image',
                           data: {
-                            src: 'http://placehold.it/350x180',
+                            src: 'http://placehold.it/150x180',
                             alt: 'A beautiful image'
                           }
                         }
@@ -131,11 +159,34 @@ module.exports = function (method, url, payload) {
                     }
                   ]
                 }
-
-
               ]
             };
           case 'aboutpage':
+            return {
+              rows: [
+                {
+                  columns: [
+                    {
+                      elements: [
+                        {
+                          id: 'plugin1',
+                          type: 'text',
+                          data: {
+                            content: 'Lorem ipsum'
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            };
+          default:
+            throw new Error();
+        }
+      case 'demoshop2':
+        switch (values.pageId) {
+          case 'homepage':
             return {
               rows: [
                 {
@@ -163,6 +214,7 @@ module.exports = function (method, url, payload) {
     }
   });
 
+  console.log(method + ' ' + url, payload);
   return new Promise(function (resolve, reject) {
     window.setTimeout(function () {
       try {

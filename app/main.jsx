@@ -39,6 +39,6 @@ var fetchData = function (routes, params) {
 
 ReactRouter.run(Routes, ReactRouter.HistoryLocation, function (Handler, state) {
   fetchData(state.routes, state.params).then((data) => {
-    React.render(<Handler data={data}/>, document.body);
+    React.render(<Handler params={state.params} data={data}/>, document.body);
   });
 });

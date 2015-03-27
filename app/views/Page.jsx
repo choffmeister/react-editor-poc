@@ -1,5 +1,4 @@
 var React = require('react'),
-    DateTime = require('../components/DateTime.jsx'),
     RestClient = require('../services/RestClient');
 
 var Text = require('../elements/Text.jsx'),
@@ -9,7 +8,7 @@ var Page = React.createClass({
   statics: {
     fetchData: function (params) {
       return {
-        page: RestClient.get('/shops/demoshop/pages/' + params.pageId)
+        page: RestClient.get('/shops/' + params.shopId + '/pages/' + params.pageId)
       };
     }
   },

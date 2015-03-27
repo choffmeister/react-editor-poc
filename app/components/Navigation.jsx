@@ -9,16 +9,17 @@ var React = require('react');
     NavItemLink = ReactRouterBootstrap.NavItemLink;
 
 var Navigation = React.createClass({
-  noop: function (event) {
-    event.preventDefault();
-  },
-
   render: function () {
+    var pages = this.props.pages.map((page) =>
+      <NavItemLink key={this.props.shopId + '/' + page.id} to="page" params={{ shopId: this.props.shopId, pageId: page.id }}>
+        {page.displayName}
+      </NavItemLink>
+    );
+
     return (
       <Navbar brand={this.props.brand}>
         <Nav>
-          <NavItemLink to="page" params={{ pageId: 'homepage' }}>Home</NavItemLink>
-          <NavItemLink to="page" params={{ pageId: 'aboutpage' }}>About</NavItemLink>
+          {pages}
         </Nav>
       </Navbar>
     );

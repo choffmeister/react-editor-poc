@@ -8,7 +8,7 @@ var App = require('./views/App.jsx'),
 
 module.exports = (
   <Route name="app" handler={App} path="/">
-    <Route name="page" handler={Page} path="/page/:pageId"/>
-    <Redirect from="" to="page" params={{ pageId: 'homepage' }}/>
+    <Route name="page" handler={Page} path="/:shopId/pages/:pageId"/>
+    <Redirect from="" to="page" params={{ shopId: 'demoshop', pageId: 'homepage' }}/>
   </Route>
 );
