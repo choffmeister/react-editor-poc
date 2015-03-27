@@ -4,6 +4,45 @@ var React = require('react'),
 var Text = require('../elements/Text.jsx'),
     Image = require('../elements/Image.jsx');
 
+var Element = React.createClass({
+  getInitialState: function () {
+    return {
+      elementMode: 'view'
+    };
+  },
+
+  toggleElementMode: function () {
+    this.setState({ elementMode: 'edit' });
+  },
+
+  render: function () {
+    var rawElement = function (element, elementMode) {
+      switch (element.type) {
+        case 'text':  return <Text mode={elementMode} data={element.data}/>;
+        case 'image': return <Image mode={elementMode} data={element.data}/>;
+        default:      return <div>Unknown Element</div>;
+      }
+    };
+
+    if (this.props.mode == 'edit') {
+      return (
+        <div>
+          <div className="btn-group" role="group">
+            <button onClick={this.toggleElementMode} type="button" className="btn btn-default">Edit</button>
+            <button type="button" className="btn btn-default">Move</button>
+            <button type="button" className="btn btn-default">Delete</button>
+          </div>
+          {rawElement(this.props.element, this.state.elementMode)}
+        </div>
+      );
+    } else {
+      return (
+        rawElement(this.props.element, 'view')
+      );
+    }
+  }
+});
+
 var Page = React.createClass({
   statics: {
     fetchData: function (params) {
@@ -14,37 +53,10 @@ var Page = React.createClass({
   },
 
   render: function () {
-    var renderElement = function (props, element) {
-      var rawElement = function (element) {
-        switch (element.type) {
-          case 'text':  return <Text data={element.data}/>;
-          case 'image': return <Image data={element.data}/>;
-          default:      return <div>Unknown Element</div>;
-        }
-      };
-
-      if (props.mode == 'edit') {
-        return (
-          <div>
-            <div className="btn-group" role="group">
-              <button type="button" className="btn btn-default">Edit</button>
-              <button type="button" className="btn btn-default">Move</button>
-              <button type="button" className="btn btn-default">Delete</button>
-            </div>
-            {rawElement(element)}
-          </div>
-        );
-      } else {
-        return (
-          rawElement(element)
-        );
-      }
-    };
-
     var renderColumn = function (props, row, column) {
       return (
         <div className={'col-md-' + Math.round(12 / row.columns.length)}>
-          {column.elements.map((element) => renderElement(props, element))}
+          {column.elements.map((element) => <Element element={element} {...props}/>)}
         </div>
       );
     };
